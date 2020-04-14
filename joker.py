@@ -26,8 +26,11 @@ class MyClient(Client):
 
 
 if __name__ == '__main__':
-    with open("token", "r") as token_file:
-        token = token_file.read()
+    try:
+        with open("token", "r") as token_file:
+            token = token_file.read()
+    except FileNotFoundError:
+        print("You have to create a file named 'token', which contains your bot token")
 
     bot = MyClient()
     bot.run(token)
