@@ -31,7 +31,8 @@ if __name__ == '__main__':
             token = token_file.read()
     except FileNotFoundError:
         print("You have to create a file named 'token', which contains your bot token")
-
+        exit(0)
+    
     bot = MyClient()
     bot.run(token)
 
