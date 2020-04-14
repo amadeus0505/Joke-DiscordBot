@@ -1,6 +1,6 @@
 from discord import Client
 from discord.message import Message
-from utils import handle_jokes
+from api_utils import handle_jokes
 import discord
 
 
