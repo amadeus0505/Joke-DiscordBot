@@ -21,8 +21,23 @@ class MyClient(Client):
                 elif len(stripped) == 2:
                     joke = handle_jokes.get_random(stripped[1].capitalize())
                     await message.channel.send(joke)
+            if stripped[0] == "!help":
+                await message.add_reaction("✅")
+                embed = discord.Embed(colour=discord.Colour(0xe18704))
+                embed.title = ""
+                embed.description = ""
+                embed.set_author(name=f"Help for {message.author}",
+                                 icon_url=f"https://cdn.discordapp.com/avatars/{message.author.id}/{message.author.avatar}.png")
+                embed.set_footer(text=f"Bot made by {self.get_user(490636491039572009)}")
+                embed.add_field(name="!help", value="show help", inline=False)
+                embed.add_field(name="!joke", value="posts a random joke", inline=False)
+                embed.add_field(name="!joke <genre>",
+                                value="posts a joke from a specific genre.\nAvailable genres: dark, "
+                                      "miscellaneous, programming", inline=False)
+                await message.author.send(embed=embed)
             else:
-                await message.channel.send("Unable to get command " + stripped[0].strip("!"))
+                await message.channel.send("Unable to get command " + stripped[0].strip("!") + ". Type !help for "
+                                                                                               "further information")
 
 
 if __name__ == '__main__':
