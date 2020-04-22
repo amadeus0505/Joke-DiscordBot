@@ -12,7 +12,25 @@ print("version: ", discord.__version__)
 
 @bot.event
 async def on_ready():
+    await bot.change_presence(
+        activity=discord.Activity(
+            type=discord.ActivityType.listening,
+            name=f"{config.get_prefix()}help"
+        )
+    )
     print("bot is ready")
+
+
+@bot.event
+async def on_member_join(member: discord.Member):
+    if (def_role := discord.utils.get(member.guild.roles, name="randoms")) is not None:
+        await member.add_roles(def_role)
+    else:
+        def_role = await member.guild.create_role(name="randoms", color=discord.Colour(0x488579), hoist=True)
+        await member.add_roles(def_role)
+
+    if (system_channel := member.guild.system_channel) is not None:
+        await system_channel.send(f"Welcome {member.mention} on {member.guild}")
 
 
 @bot.command()
@@ -22,6 +40,7 @@ async def joke(ctx, genre="any"):
 
 
 @bot.command()
+@commands.has_permissions(manage_guild=True)
 async def prefix(ctx, new=None):
     if new is None:
         await ctx.send("Current prefix: " + config.get_prefix())
@@ -29,6 +48,14 @@ async def prefix(ctx, new=None):
         bot.command_prefix = commands.when_mentioned_or(new)
         config.change_prefix(new)
         await ctx.send("Changed prefix to " + config.get_prefix())
+        await bot.change_presence(
+            activity=discord.Activity(type=discord.ActivityType.listening, name=f"{config.get_prefix()}help"))
+
+
+@prefix.error
+async def prefix_error(ctx, error):
+    if isinstance(error, commands.MissingPermissions):
+        await ctx.send("You do not have the permission to use this command!")
 
 
 @bot.command(name="help", aliases=["?"])
