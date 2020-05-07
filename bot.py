@@ -79,5 +79,14 @@ async def _help(ctx):
     await ctx.author.send(embed=embed)
 
 
+@bot.command()
+async def dj(ctx):
+    for role in ctx.guild.roles:
+        if role.name == "DJ":
+            await ctx.author.add_roles(role)
+            await ctx.send(f"Glückwunsch {ctx.author.mention}, du bist nun DJ!")
+            break
+
+
 if __name__ == '__main__':
     bot.run(config.get_token())
