@@ -9,6 +9,8 @@ bot.remove_command("help")
 
 print("version: ", discord.__version__)
 
+# TODO: add pin function
+
 
 @bot.event
 async def on_ready():
@@ -31,6 +33,27 @@ async def on_member_join(member: discord.Member):
 
     if (system_channel := member.guild.system_channel) is not None:
         await system_channel.send(f"Welcome {member.mention} on {member.guild}")
+
+
+# @bot.event
+# async def on_reaction_add(reaction: discord.Reaction, user: discord.Member):
+#     message: discord.Message = reaction.message
+#     if reaction.emoji == "📌":
+#         pin_message: discord.Message = await message.pin()
+
+
+@bot.event
+async def on_raw_reaction_add(payload: discord.RawReactionActionEvent):
+    if payload.emoji.name == "📌":
+        await bot.http.pin_message(payload.channel_id, payload.message_id)
+
+
+@bot.event
+async def on_reaction_remove(reaction: discord.Reaction, user: discord.Member)
+    message: discord.Message = reaction.message
+    if reaction.emoji == "📌" and reaction.count <= 0:
+        await message.unpin()
+        await reaction.message.channel.send("Nachricht wurde vom Pinnbrett gelöscht")
 
 
 @bot.command()

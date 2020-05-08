@@ -16,8 +16,12 @@ def change_prefix(prefix):
 
 
 def get_token():
-    with open(".config/bot_token", "r") as token_file:
-        token = token_file.read().strip()
+    try:
+        with open(".config/bot_token", "r") as token_file:
+            token = token_file.read().strip()
+    except FileNotFoundError:
+        print("missing bot_token file in .config/")
+        exit(1)
     return token
 
 
