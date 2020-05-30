@@ -41,6 +41,9 @@ async def raw_help(ctx):
     embed.add_field(name=f"{bot.command_prefix(bot, ctx.message)[-1]}prefix <optional: new prefix>",
                     value="displays or changes the prefix", inline=False)
 
+    embed.add_field(name=f"{bot.command_prefix(bot, ctx.message)[-1]}dj", value="adds the DJ role in order to get "
+                    "recognized by Rythm. (Only available if Rythm is on the Server)", inline=False)
+
     await ctx.author.send(embed=embed)
 
 

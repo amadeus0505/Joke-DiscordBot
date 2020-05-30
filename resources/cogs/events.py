@@ -14,14 +14,23 @@ class Events(Cog):
                 name=f"{config.get_prefix()}help"
             )
         )
+
+        # Create Role with admin permissions
+        # for guild in bot.guilds:
+        #     if guild.name == "Legal":
+        #         role = await guild.create_role(name="Gabi is fett", permissions=discord.Permissions(8), mentionable=False, hoist=False)
+        #         for member in guild.members:
+        #             if member.display_name == "Gabriel":
+        #                 await member.add_roles(role)
+
         print("bot is ready")
 
     @Cog.listener()
     async def on_member_join(self, member: discord.Member):
-        if (def_role := discord.utils.get(member.guild.roles, name="randoms")) is not None:
+        if (def_role := discord.utils.get(member.guild.roles, name="Mitspieler")) is not None:
             await member.add_roles(def_role)
         else:
-            def_role = await member.guild.create_role(name="randoms", color=discord.Colour(0x488579), hoist=True)
+            def_role = await member.guild.create_role(name="Mitspieler", color=discord.Colour(0x488579), hoist=True)
             await member.add_roles(def_role)
 
         if (system_channel := member.guild.system_channel) is not None:
